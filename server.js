@@ -23,32 +23,13 @@ app.get("/hello-json", (req, res) => {
   res.json({ message: "Hello world !" });
 });
 
-const secret = "secret_key";
-
-const verifierJWT = (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  const jwt = authHeader && authHeader.split(" ")[1]; // Bearer TOKEN
-
-  if (jwt == null) return res.sendStatus(401);
-
-  jwtUtils.verify(jwt, secret, (err, user) => {
-    if (err) return res.sendStatus(403);
-    req.user = user;
-    next();
-  });
-};
-
 app.listen(port, () => {
   console.log(`Le serveur est accessible sur le port : ${port}`);
 });
 
 const mongoose = require("mongoose");
 
-const dbUser = "rootuser";
-const dbPassword = "rootpass";
-const dbName = "ecommerce";
-const dbHost = "localhost";
-
+const { dbUser, dbPassword, dbHost, dbName } = require("./config");
 const connectionString = `mongodb://${dbUser}:${dbPassword}@${dbHost}:27017/${dbName}?authSource=admin`;
 
 mongoose

@@ -29,10 +29,10 @@ exports.create = (req, res) => {
     });
 };
 
-// Liste tous les offres de la base de données
+// Liste toutes les offres de la base de données
 exports.findAll = (req, res) => {
-  Offre.find()
-    .populate("utilisateur")
+  Offre.find({}, "-createdAt -updatedAt -__v")
+    .populate("utilisateur", "-password -email -createdAt -updatedAt -__v")
     .then((offres) => {
       res.send(offres);
     })
@@ -47,7 +47,8 @@ exports.findAll = (req, res) => {
 
 // Trouve un offre par son identifiant
 exports.findOne = (req, res) => {
-  Offre.findById(req.params.offreId)
+  Offre.findById(req.params.offreId, "-createdAt -updatedAt -__v")
+    .populate("utilisateur", "-password -email -createdAt -updatedAt -__v")
     .then((offre) => {
       if (!offre) {
         return res.status(404).send({
