@@ -23,7 +23,7 @@ exports.create = (req, res) => {
       res.send(data);
     })
     .catch((err) => {
-      res.status(500).send({
+      return res.status(500).send({
         message: err.message || "Une erreur est survenue",
       });
     });
@@ -34,10 +34,10 @@ exports.findAll = (req, res) => {
   Offre.find({}, "-createdAt -updatedAt -__v")
     .populate("utilisateur", "-password -email -createdAt -updatedAt -__v")
     .then((offres) => {
-      res.send(offres);
+      return res.send(offres);
     })
     .catch((err) => {
-      res.status(500).send({
+      return res.status(500).send({
         message:
           err.message ||
           "Une erreur est survenue lors de la récupération des offres.",
