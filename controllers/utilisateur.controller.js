@@ -28,10 +28,10 @@ exports.create = (req, res) => {
     utilisateur
       .save()
       .then((data) => {
-        res.send(data);
+        return res.send(data);
       })
       .catch((err) => {
-        res.status(500).send({
+        return res.status(500).send({
           message: err.message || "Une erreur est survenue",
         });
       });
@@ -42,10 +42,10 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
   Utilisateur.find()
     .then((utilisateurs) => {
-      res.send(utilisateurs);
+      return res.send(utilisateurs);
     })
     .catch((err) => {
-      res.status(500).send({
+      return res.status(500).send({
         message: err.message || "Une erreur est survenue",
       });
     });
@@ -134,7 +134,7 @@ exports.delete = (req, res) => {
             req.params.utilisateurId,
         });
       }
-      res.send({ message: "L' utilisateur a bien été supprimé" });
+      return res.send({ message: "L' utilisateur a bien été supprimé" });
     })
     .catch((err) => {
       if (err.kind === "ObjectId" || err.name === "NotFound") {
